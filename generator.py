@@ -34,12 +34,12 @@ fenetre = tk.Tk()
 fenetre.title("Générateur de mot de passe")
 fenetre.geometry("500x550+200+200")
 
-# Vérification de la bonne position de l'image
+
 if getattr(sys, 'frozen', False):
-    # Si l'application est un .exe
+   
     image_path = os.path.join(sys._MEIPASS, "ours.png")
 else:
-    # Si tu exécutes en mode script Python
+ 
     image_path = "ours.png"
 
 try:
