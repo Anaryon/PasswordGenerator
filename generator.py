@@ -2,7 +2,9 @@ import random
 import string
 import tkinter as tk
 from tkinter import messagebox
-from PIL import Image, ImageTk  # pip install pillow
+from PIL import Image, ImageTk
+import sys
+import os
 
 def generer_mot_de_passe():
     try:
@@ -28,27 +30,34 @@ def generer_mot_de_passe():
     random.shuffle(mot_de_passe)
     resultat.set(''.join(mot_de_passe))
 
-# Interface graphique
 fenetre = tk.Tk()
 fenetre.title("Générateur de mot de passe")
-fenetre.geometry("400x450")  # Augmenté la taille de la fenêtre pour accueillir un plus grand ours
+fenetre.geometry("500x550+200+200")
 
-# Charger l'image de l'ours et l'ajuster (augmentation de la taille de l'image)
-image_ours = Image.open("ours.png")  # Assurez-vous que l'image est dans le bon répertoire
-image_ours = image_ours.resize((250, 250), Image.Resampling.LANCZOS)  # Image plus grande
+# Vérification de la bonne position de l'image
+if getattr(sys, 'frozen', False):
+    # Si l'application est un .exe
+    image_path = os.path.join(sys._MEIPASS, "ours.png")
+else:
+    # Si tu exécutes en mode script Python
+    image_path = "ours.png"
+
+try:
+    image_ours = Image.open(image_path)
+except FileNotFoundError:
+    messagebox.showerror("Erreur", "L'image 'ours.png' est introuvable.")
+    fenetre.quit()
+    exit()
+
+image_ours = image_ours.resize((300, 300), Image.Resampling.LANCZOS)
 photo_ours = ImageTk.PhotoImage(image_ours)
 
-# Créer un Canvas pour afficher l'image
-canvas = tk.Canvas(fenetre, width=250, height=350)  # Hauteur augmentée pour l'image plus grande et plus d'espace pour le texte
+canvas = tk.Canvas(fenetre, width=300, height=400)
 canvas.pack(pady=10)
 
-# Ajouter l'image sur le Canvas
-canvas.create_image(125, 125, image=photo_ours)  # Positionner l'image au centre du canvas
+canvas.create_image(150, 150, image=photo_ours)
+canvas.create_text(150, 330, text="Dimitri Orthwein", font=("Helvetica", 16), fill="black")
 
-# Ajouter le texte sous l'image avec plus d'espace
-canvas.create_text(125, 270, text="Dimitri Orthwein", font=("Helvetica", 16), fill="black")  # Texte déplacé plus bas
-
-# Interface utilisateur
 tk.Label(fenetre, text="Longueur du mot de passe :").pack()
 entree_longueur = tk.Entry(fenetre)
 entree_longueur.pack(pady=5)
