@@ -68,3 +68,4 @@ resultat = tk.StringVar()
 tk.Entry(fenetre, textvariable=resultat, font=("Courier", 12), width=30).pack(pady=5)
 
 fenetre.mainloop()
+
